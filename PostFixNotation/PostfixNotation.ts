@@ -35,27 +35,26 @@ export const createPostNoation = (exp: string): string => {
 
   for (let i: number = 0; i < exp.length; i++) {
     /**
-     * ( 는 무조건 연산스택에 push
-     * ) 는 무조건 ( 만날때까지 output으로 pop
-     */
-    if (exp[i] === "(") {
-      stack.push(exp[i]);
-      continue;
-    }
-    if (exp[i] === ")") {
-      while (true) {
-        const operator = stack.pop();
-        if (operator === "(") break;
-        else output += operator;
-      }
-      continue;
-    }
-
-    /**
      * 연산자
      */
     if (Object.keys(OPERATORS).includes(exp[i])) {
       while (true) {
+        /**
+         * ( 는 무조건 연산스택에 push
+         * ) 는 무조건 ( 만날때까지 output으로 pop
+         */
+        if (exp[i] === "(") {
+          stack.push(exp[i]);
+          break;
+        }
+        if (exp[i] === ")") {
+          while (true) {
+            const operator = stack.pop();
+            if (operator === "(") break;
+            else output += operator;
+          }
+          break;
+        }
         /** 연산 스택 비어있으면 push */
         if (stack.length === 0) {
           stack.push(exp[i]);
